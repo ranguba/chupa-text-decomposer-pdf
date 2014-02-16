@@ -32,7 +32,10 @@ module ChupaText
         document = Poppler::Document.new(data.body)
         text = ""
         document.each do |page|
-          text << page.get_text
+          page_text = page.get_text
+          next if page_text.empty?
+          text << "\n" unless text.empty?
+          text << page_text
         end
         text_data = TextData.new(text)
         text_data.uri = data.uri

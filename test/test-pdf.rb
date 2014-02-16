@@ -125,7 +125,7 @@ class TestPDF < Test::Unit::TestCase
 
     sub_test_case("multi pages") do
       def test_body
-        assert_equal(["Page1Page2"], decompose.collect(&:body))
+        assert_equal(["Page1\nPage2"], decompose.collect(&:body))
       end
 
       private
