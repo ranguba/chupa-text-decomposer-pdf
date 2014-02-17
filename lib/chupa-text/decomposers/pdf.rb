@@ -53,7 +53,7 @@ module ChupaText
       def create_document(data)
         _password = password(data)
         begin
-          wrap_stdout do
+          wrap_stderr do
             Poppler::Document.new(data.body, _password)
           end
         rescue GLib::Error => error
