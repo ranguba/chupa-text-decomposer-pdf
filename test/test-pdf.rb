@@ -1,4 +1,4 @@
-# Copyright (C) 2013  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2014  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,10 +18,14 @@ require "pathname"
 
 class TestPDF < Test::Unit::TestCase
   def setup
-    @decomposer = ChupaText::Decomposers::PDF.new({})
+    @options = {}
   end
 
   private
+  def decomposer
+    ChupaText::Decomposers::PDF.new(@options)
+  end
+
   def fixture_path(*components)
     base_path = Pathname(__FILE__).dirname + "fixture"
     base_path.join(*components)
@@ -37,11 +41,11 @@ class TestPDF < Test::Unit::TestCase
       end
 
       def test_pdf
-        assert_true(@decomposer.target?(create_data("index.pdf")))
+        assert_true(decomposer.target?(create_data("index.pdf")))
       end
 
       def test_html
-        assert_false(@decomposer.target?(create_data("index.html")))
+        assert_false(decomposer.target?(create_data("index.html")))
       end
     end
 
@@ -53,11 +57,11 @@ class TestPDF < Test::Unit::TestCase
       end
 
       def test_pdf
-        assert_true(@decomposer.target?(create_data("application/pdf")))
+        assert_true(decomposer.target?(create_data("application/pdf")))
       end
 
       def test_html
-        assert_false(@decomposer.target?(create_data("text/html")))
+        assert_false(decomposer.target?(create_data("text/html")))
       end
     end
   end
@@ -69,7 +73,7 @@ class TestPDF < Test::Unit::TestCase
       data.mime_type = "text/pdf"
 
       decomposed = []
-      @decomposer.decompose(data) do |decomposed_data|
+      decomposer.decompose(data) do |decomposed_data|
         decomposed << decomposed_data
       end
       decomposed
@@ -131,6 +135,31 @@ class TestPDF < Test::Unit::TestCase
       private
       def decompose
         super(fixture_path("multi-pages.pdf"))
+      end
+    end
+
+    sub_test_case("encrypted") do
+      def test_with_password
+        @options = {:password => "encrypted"}
+        assert_equal(["Password is 'encrypted'."],
+                     decompose.collect(&:body))
+      end
+
+      def test_with_password_block
+        @options = {:password => lambda {|data| "encrypted"}}
+        assert_equal(["Password is 'encrypted'."],
+                     decompose.collect(&:body))
+      end
+
+      def test_without_password
+        assert_raise(ChupaText::EncryptedError) do
+          decompose
+        end
+      end
+
+      private
+      def decompose
+        super(fixture_path("encrypted.pdf"))
       end
     end
   end

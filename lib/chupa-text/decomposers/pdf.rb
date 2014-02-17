@@ -1,4 +1,4 @@
-# Copyright (C) 2013  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2014  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,7 @@ module ChupaText
       end
 
       def decompose(data)
-        document = Poppler::Document.new(data.body)
+        document = create_document(data)
         text = ""
         document.each do |page|
           page_text = page.get_text
@@ -50,6 +50,27 @@ module ChupaText
       end
 
       private
+      def create_document(data)
+        begin
+          Poppler::Document.new(data.body, password(data))
+        rescue GLib::Error => error
+          case error.code
+          when Poppler::Error::ENCRYPTED.to_i
+            raise ChupaText::EncryptedError.new(data)
+          else
+            raise ChupaText::InvalidDataError.new(data, error.message)
+          end
+        end
+      end
+
+      def password(data)
+        password = @options[:password]
+        if password.respond_to?(:call)
+          password = password.call(data)
+        end
+        password
+      end
+
       def add_attribute(text_data, document, name)
         value = document.send(name)
         return if value.nil?
