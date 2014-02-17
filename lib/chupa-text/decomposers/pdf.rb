@@ -45,7 +45,7 @@ module ChupaText
         add_attribute(text_data, document, :keywords)
         add_attribute(text_data, document, :creator)
         add_attribute(text_data, document, :producer)
-        add_attribute(text_data, document, :creation_date)
+        add_attribute(text_data, document, :creation_date, :created_time)
         yield(text_data)
       end
 
@@ -71,12 +71,13 @@ module ChupaText
         password
       end
 
-      def add_attribute(text_data, document, name)
-        value = document.send(name)
+      def add_attribute(text_data, document,
+                        pdf_attribute_name, data_attribute_name=nil)
+        value = document.send(pdf_attribute_name)
         return if value.nil?
-        attribute_name = name.to_s.gsub(/_/, "-")
         value = Time.at(value).utc.iso8601 if value.is_a?(Integer)
-        text_data[attribute_name] = value
+        data_attribute_name ||= pdf_attribute_name.to_s.gsub(/_/, "-")
+        text_data[data_attribute_name] = value
       end
     end
   end

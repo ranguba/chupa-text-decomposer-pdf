@@ -104,8 +104,9 @@ class TestPDF < Test::Unit::TestCase
         assert_equal(["LibreOffice 4.1"], decompose("producer"))
       end
 
-      def test_creation_date
-        assert_equal([nil], decompose("creation_date"))
+      def test_created_time
+        assert_equal([Time.parse("2014-01-05T06:52:45Z")],
+                     decompose("created_time"))
       end
 
       private
