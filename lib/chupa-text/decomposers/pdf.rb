@@ -51,8 +51,11 @@ module ChupaText
 
       private
       def create_document(data)
+        _password = password(data)
         begin
-          Poppler::Document.new(data.body, password(data))
+          wrap_stdout do
+            Poppler::Document.new(data.body, _password)
+          end
         rescue GLib::Error => error
           case error.code
           when Poppler::Error::ENCRYPTED.to_i
@@ -69,6 +72,16 @@ module ChupaText
           password = password.call(data)
         end
         password
+      end
+
+      def wrap_stderr
+        stderr = $stderr.dup
+        input, output = IO.pipe
+        _ = input # TODO: Report output
+        $stderr.reopen(output)
+        yield
+      ensure
+        $stderr.reopen(stderr)
       end
 
       def add_attribute(text_data, document,
