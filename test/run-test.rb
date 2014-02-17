@@ -18,6 +18,8 @@
 
 $VERBOSE = true
 
+ENV["TZ"] = "JST"
+
 require "bundler/setup"
 
 require "test-unit"
