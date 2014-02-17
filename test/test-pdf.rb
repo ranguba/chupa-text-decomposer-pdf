@@ -119,7 +119,7 @@ class TestPDF < Test::Unit::TestCase
 
     sub_test_case("one page") do
       def test_body
-        assert_equal(["Page1"], decompose.collect(&:body))
+        assert_equal(["Page1\n"], decompose.collect(&:body))
       end
 
       private
@@ -130,7 +130,7 @@ class TestPDF < Test::Unit::TestCase
 
     sub_test_case("multi pages") do
       def test_body
-        assert_equal(["Page1\nPage2"], decompose.collect(&:body))
+        assert_equal(["Page1\nPage2\n"], decompose.collect(&:body))
       end
 
       private
@@ -142,13 +142,13 @@ class TestPDF < Test::Unit::TestCase
     sub_test_case("encrypted") do
       def test_with_password
         @options = {:password => "encrypted"}
-        assert_equal(["Password is 'encrypted'."],
+        assert_equal(["Password is 'encrypted'.\n"],
                      decompose.collect(&:body))
       end
 
       def test_with_password_block
         @options = {:password => lambda {|data| "encrypted"}}
-        assert_equal(["Password is 'encrypted'."],
+        assert_equal(["Password is 'encrypted'.\n"],
                      decompose.collect(&:body))
       end
 

@@ -34,10 +34,8 @@ module ChupaText
         document.each do |page|
           page_text = page.get_text
           next if page_text.empty?
-          if !text.empty? and !text.end_with?("\n")
-            text << "\n"
-          end
           text << page_text
+          text << "\n" unless page_text.end_with?("\n")
         end
         text_data = TextData.new(text)
         text_data.uri = data.uri
