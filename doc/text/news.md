@@ -1,5 +1,11 @@
 # News
 
+## 1.0.2: 2014-02-18
+
+### Improvements
+
+  * Supported encrypted PDF. Use `:password` option.
+
 ## 1.0.1: 2014-02-16
 
 ### Improvements
