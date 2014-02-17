@@ -34,7 +34,9 @@ module ChupaText
         document.each do |page|
           page_text = page.get_text
           next if page_text.empty?
-          text << "\n" unless text.empty?
+          if !text.empty? and !text.end_with?("\n")
+            text << "\n"
+          end
           text << page_text
         end
         text_data = TextData.new(text)
