@@ -38,8 +38,7 @@ module ChupaText
           text << page_text
           text << "\n" unless page_text.end_with?("\n")
         end
-        text_data = TextData.new(text)
-        text_data.uri = data.uri
+        text_data = TextData.new(text, :source_data => data)
         add_attribute(text_data, document, :title)
         add_attribute(text_data, document, :author)
         add_attribute(text_data, document, :subject)
