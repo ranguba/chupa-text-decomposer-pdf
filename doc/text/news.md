@@ -1,5 +1,13 @@
 # News
 
+## 1.0.3: 2017-05-02
+
+### Improvements
+
+  * Improved PDF data detection.
+
+  * Supported source data attributes.
+
 ## 1.0.2: 2014-02-18
 
 ### Improvements
