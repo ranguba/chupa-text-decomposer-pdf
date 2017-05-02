@@ -35,7 +35,7 @@ class TestPDF < Test::Unit::TestCase
     sub_test_case("extension") do
       def create_data(uri)
         data = ChupaText::Data.new
-        data.body = ""
+        data.body = "%PDF-1.4"
         data.uri = uri
         data.mime_type = "application/octet-stream"
         data
