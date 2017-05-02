@@ -110,7 +110,7 @@ class TestPDF < Test::Unit::TestCase
       end
 
       def test_created_time
-        assert_equal([Time.parse("2014-01-06T00:52:45+09:00")],
+        assert_equal([Time.parse("2014-01-05T06:52:45Z")],
                      decompose("created_time"))
       end
 
