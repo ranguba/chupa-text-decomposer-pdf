@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2014  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2017  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -37,15 +37,20 @@ class TestPDF < Test::Unit::TestCase
         data = ChupaText::Data.new
         data.body = ""
         data.uri = uri
+        data.mime_type = "application/octet-stream"
         data
       end
 
       def test_pdf
-        assert_true(decomposer.target?(create_data("index.pdf")))
+        assert do
+          decomposer.target?(create_data("index.pdf"))
+        end
       end
 
       def test_html
-        assert_false(decomposer.target?(create_data("index.html")))
+        assert do
+          not decomposer.target?(create_data("index.html"))
+        end
       end
     end
 
