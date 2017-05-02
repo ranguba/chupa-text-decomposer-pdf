@@ -24,6 +24,7 @@ module ChupaText
       registry.register("pdf", self)
 
       def target?(data)
+        return false if data.text_plain?
         data.extension == "pdf" or
           data.mime_type == "application/pdf"
       end
