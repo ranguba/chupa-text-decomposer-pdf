@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   description = clean_white_space.call(entries[entries.index("Description") + 1])
   spec.summary = description.split(/\n\n+/, 2).first
   spec.description = description
-  spec.license = "LGPLv2.1 or later"
+  spec.license = "LGPL-2.1+"
   spec.files = ["#{spec.name}.gemspec"]
   spec.files += ["README.md", "LICENSE.txt", "Rakefile", "Gemfile"]
   spec.files += [".yardopts"]
