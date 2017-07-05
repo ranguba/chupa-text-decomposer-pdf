@@ -1,5 +1,11 @@
 # News
 
+## 1.0.4: 2017-07-05
+
+### Improvements
+
+  * Supported content based detection for no extension input.
+
 ## 1.0.3: 2017-05-02
 
 ### Improvements
