@@ -24,8 +24,16 @@ module ChupaText
       registry.register("pdf", self)
 
       def target?(data)
-        (data.extension == "pdf" and data.body.start_with?("%PDF-1")) or
-          data.mime_type == "application/pdf"
+        return true if data.mime_type == "application/pdf"
+
+        return false if data.body.nil?
+
+        case data.extension
+        when nil, "pdf"
+          data.body.start_with?("%PDF-1")
+        else
+          false
+        end
       end
 
       def decompose(data)
