@@ -15,6 +15,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 require "pathname"
+require "gdk_pixbuf2"
 
 class TestPDF < Test::Unit::TestCase
   def setup
@@ -166,6 +167,44 @@ class TestPDF < Test::Unit::TestCase
       private
       def decompose
         super(fixture_path("encrypted.pdf"))
+      end
+    end
+
+    sub_test_case("screenshot") do
+      def test_with_password
+        assert_equal([
+                       {
+                         "mime-type" => "image/png",
+                         "pixels" => load_image_fixture("screenshot.png"),
+                         "encoding" => "base64",
+                       },
+                     ],
+                     decompose("screenshot.pdf"))
+      end
+
+      private
+      def decompose(fixture_name)
+        super(fixture_path(fixture_name)).collect do |decompose|
+          screenshot = decompose.screenshot
+          {
+            "mime-type" => screenshot.mime_type,
+            "pixels" => load_image_data(screenshot.decoded_data),
+            "encoding" => screenshot.encoding,
+          }
+        end
+      end
+
+      def load_image_data(data)
+        loader = GdkPixbuf::PixbufLoader.new
+        loader.write(data)
+        loader.close
+        loader.pixbuf.pixels
+      end
+
+      def load_image_fixture(fixture_name)
+        File.open(fixture_path(fixture_name), "rb") do |file|
+          load_image_data(file.read)
+        end
       end
     end
   end

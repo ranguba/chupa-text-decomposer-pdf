@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2014  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2017  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -53,6 +53,9 @@ module ChupaText
         add_attribute(text_data, document, :creator)
         add_attribute(text_data, document, :producer)
         add_attribute(text_data, document, :creation_date, :created_time)
+        if data.need_screenshot?
+          text_data.screenshot = create_screenshot(data, document)
+        end
         yield(text_data)
       end
 
@@ -98,6 +101,36 @@ module ChupaText
         value = Time.at(value).utc.iso8601 if value.is_a?(Integer)
         data_attribute_name ||= pdf_attribute_name.to_s.gsub(/_/, "-")
         text_data[data_attribute_name] = value
+      end
+
+      def create_screenshot(data, document)
+        screenshot_width, screenshot_height = data.expected_screenshot_size
+
+        page = document[0]
+        page_width, page_height = page.size
+
+        surface = Cairo::ImageSurface.new(:argb32,
+                                          screenshot_width,
+                                          screenshot_height)
+        context = Cairo::Context.new(surface)
+        context.set_source_color(:white)
+        context.paint
+        if page_width > page_height
+          ratio = screenshot_width / page_width
+          context.translate(0,
+                            ((screenshot_height - page_height * ratio) / 2))
+          context.scale(ratio, ratio)
+        else
+          ratio = screenshot_height / page_height
+          context.translate(((screenshot_width - page_width * ratio) / 2),
+                            0)
+          context.scale(ratio, ratio)
+        end
+        context.render_poppler_page(page)
+        png = StringIO.new
+        surface.write_to_png(png)
+
+        Screenshot.new("image/png", [png.string].pack("m*"), "base64")
       end
     end
   end

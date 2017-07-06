@@ -39,12 +39,13 @@ Gem::Specification.new do |spec|
   spec.files += Dir.glob("doc/text/*")
   spec.files += Dir.glob("test/**/*")
 
-  spec.add_runtime_dependency("chupa-text")
+  spec.add_runtime_dependency("chupa-text", ">= 1.0.7")
   spec.add_runtime_dependency("poppler")
 
   spec.add_development_dependency("bundler")
   spec.add_development_dependency("rake")
   spec.add_development_dependency("test-unit")
   spec.add_development_dependency("packnga")
-  spec.add_development_dependency("redcarpet")
+  spec.add_development_dependency("kramdown")
+  spec.add_development_dependency("gdk_pixbuf2")
 end
