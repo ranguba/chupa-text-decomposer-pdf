@@ -1,5 +1,11 @@
 # News
 
+## 1.0.5: 2017-07-12
+
+### Improvements
+
+  * Supported screenshot.
+
 ## 1.0.4: 2017-07-05
 
 ### Improvements
