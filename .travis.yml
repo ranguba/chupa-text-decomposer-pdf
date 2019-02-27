@@ -1,6 +1,7 @@
 notifications:
   webhooks:
     - https://webhook.commit-email.info/
+dist: xenial
 rvm:
   - 2.3
   - 2.4
