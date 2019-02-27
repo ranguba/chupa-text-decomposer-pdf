@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2017  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2019  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -14,6 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+require "tempfile"
 require "time"
 
 require "poppler"
@@ -62,9 +63,19 @@ module ChupaText
       private
       def create_document(data)
         _password = password(data)
+        path = data.path
+        if path and path.exist?
+          path = path.to_s
+        else
+          file = Tempfile.new(["chupa-text-decomposer-pdf", ".pdf"])
+          file.binmode
+          file.write(data.body)
+          file.close
+          path = file.path
+        end
         begin
           wrap_stderr do
-            Poppler::Document.new(data.body, _password)
+            Poppler::Document.new(file: path, password: _password)
           end
         rescue GLib::Error => error
           case error.code
