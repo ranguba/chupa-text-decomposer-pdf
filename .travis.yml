@@ -1,9 +1,9 @@
-dist: trusty
 notifications:
-  email:
-    recipients:
-      - groonga-commit@lists.osdn.me
+  webhooks:
+    - https://webhook.commit-email.info/
 rvm:
-  - 2.2
-  - 2.3.3
-  - 2.4.0
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - ruby-head
