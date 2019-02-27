@@ -2,6 +2,7 @@ notifications:
   webhooks:
     - https://webhook.commit-email.info/
 dist: xenial
+sudo: required
 rvm:
   - 2.3
   - 2.4
