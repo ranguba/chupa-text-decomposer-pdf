@@ -2,7 +2,10 @@ notifications:
   webhooks:
     - https://webhook.commit-email.info/
 dist: xenial
-sudo: required
+addons:
+  apt:
+    packages:
+      - libgirepository1.0-dev
 rvm:
   - 2.3
   - 2.4
