@@ -1,5 +1,11 @@
 # News
 
+## 1.0.7: 2019-02-27
+
+### Improvements
+
+  * Added support for `String` path.
+
 ## 1.0.6: 2019-02-27
 
 ### Improvements
