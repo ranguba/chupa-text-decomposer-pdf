@@ -77,13 +77,10 @@ module ChupaText
           wrap_stderr do
             Poppler::Document.new(file: path, password: _password)
           end
+        rescue Poppler::Error::Encrypted
+          raise ChupaText::EncryptedError.new(data)
         rescue GLib::Error => error
-          case error.code
-          when Poppler::Error::ENCRYPTED.to_i
-            raise ChupaText::EncryptedError.new(data)
-          else
-            raise ChupaText::InvalidDataError.new(data, error.message)
-          end
+          raise ChupaText::InvalidDataError.new(data, error.message)
         end
       end
 
