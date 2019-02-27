@@ -64,9 +64,17 @@ module ChupaText
       def create_document(data)
         _password = password(data)
         path = data.path
-        if path and path.exist?
-          path = path.to_s
-        else
+        case path
+        when String
+          path = nil unless File.exist?(path)
+        when Pathname
+          if path.exist?
+            path = path.to_s
+          else
+            path = nil
+          end
+        end
+        if path.nil?
           file = Tempfile.new(["chupa-text-decomposer-pdf", ".pdf"])
           file.binmode
           file.write(data.body)
