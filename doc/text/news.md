@@ -1,5 +1,11 @@
 # News
 
+## 1.0.6: 2019-02-27
+
+### Improvements
+
+  * Added support for the latest poppler gem.
+
 ## 1.0.5: 2017-07-12
 
 ### Improvements
