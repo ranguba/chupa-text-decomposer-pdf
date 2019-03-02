@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2017  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2019  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,13 @@ class TestPDF < Test::Unit::TestCase
   def fixture_path(*components)
     base_path = Pathname(__FILE__).dirname + "fixture"
     base_path.join(*components)
+  end
+
+  def capture_log(&block)
+    ChupaText::CaptureLogger.capture(&block).collect do |level, message|
+      message = message.split("\n", 2)[0]
+      [level, message]
+    end
   end
 
   sub_test_case("target?") do
@@ -210,6 +217,23 @@ class TestPDF < Test::Unit::TestCase
         File.open(fixture_path(fixture_name), "rb") do |file|
           load_image_data(file.read)
         end
+      end
+    end
+
+    sub_test_case("invalid") do
+      def test_empty
+        messages = capture_log do
+          assert_equal([],
+                       decompose(fixture_path("empty.pdf")).collect(&:body))
+        end
+        assert_equal([
+                       [
+                         :error,
+                         "[decomposer][pdf] Failed to process PDF: " +
+                         "Poppler::Error::Damaged: PDF document is damaged",
+                       ],
+                     ],
+                     messages)
       end
     end
   end

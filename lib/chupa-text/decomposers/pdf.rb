@@ -22,6 +22,8 @@ require "poppler"
 module ChupaText
   module Decomposers
     class PDF < Decomposer
+      include Loggable
+
       registry.register("pdf", self)
 
       def target?(data)
@@ -37,6 +39,8 @@ module ChupaText
 
       def decompose(data)
         document = create_document(data)
+        return if document.nil?
+
         text = ""
         document.each do |page|
           page_text = page.get_text
@@ -87,8 +91,14 @@ module ChupaText
           end
         rescue Poppler::Error::Encrypted
           raise ChupaText::EncryptedError.new(data)
-        rescue GLib::Error => error
-          raise ChupaText::InvalidDataError.new(data, error.message)
+        rescue Poppler::Error => poppler_error
+          error do
+            message = "#{log_tag} Failed to process PDF: "
+            message << "#{poppler_error.class}: #{poppler_error.message}\n"
+            message << poppler_error.backtrace.join("\n")
+            message
+          end
+          nil
         end
       end
 
@@ -147,6 +157,10 @@ module ChupaText
         surface.write_to_png(png)
 
         Screenshot.new("image/png", [png.string].pack("m*"), "base64")
+      end
+
+      def log_tag
+        "[decomposer][pdf]"
       end
     end
   end
