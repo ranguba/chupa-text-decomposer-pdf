@@ -75,7 +75,9 @@ module ChupaText
         if path.nil?
           file = Tempfile.new(["chupa-text-decomposer-pdf", ".pdf"])
           file.binmode
-          file.write(data.body)
+          data.open do |input|
+            IO.copy_stream(input, file)
+          end
           file.close
           path = file.path
         end
