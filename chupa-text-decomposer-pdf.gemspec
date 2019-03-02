@@ -1,6 +1,6 @@
 # -*- ruby -*-
 #
-# Copyright (C) 2013-2017  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2019  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.files += Dir.glob("doc/text/*")
   spec.files += Dir.glob("test/**/*")
 
-  spec.add_runtime_dependency("chupa-text", ">= 1.0.7")
+  spec.add_runtime_dependency("chupa-text", ">= 1.1.8")
   spec.add_runtime_dependency("poppler")
 
   spec.add_development_dependency("bundler")

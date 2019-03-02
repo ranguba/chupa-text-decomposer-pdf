@@ -27,11 +27,9 @@ module ChupaText
       def target?(data)
         return true if data.mime_type == "application/pdf"
 
-        return false if data.body.nil?
-
         case data.extension
         when nil, "pdf"
-          data.body.start_with?("%PDF-1")
+          (data.peek_body(6) || "").start_with?("%PDF-1")
         else
           false
         end
