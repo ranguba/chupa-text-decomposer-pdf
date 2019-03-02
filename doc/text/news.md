@@ -1,5 +1,13 @@
 # News
 
+## 1.0.9: 2019-03-03
+
+### Improvements
+
+  * Changed to use log instead of exception for invalid PDF.
+
+  * Reduced memory usage.
+
 ## 1.0.8: 2019-03-03
 
 ### Improvements
