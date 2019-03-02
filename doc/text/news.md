@@ -1,5 +1,11 @@
 # News
 
+## 1.0.8: 2019-03-03
+
+### Improvements
+
+  * Reduced memory usage.
+
 ## 1.0.7: 2019-02-27
 
 ### Improvements
