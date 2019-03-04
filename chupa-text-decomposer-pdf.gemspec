@@ -22,7 +22,7 @@ end
 
 Gem::Specification.new do |spec|
   spec.name = "chupa-text-decomposer-pdf"
-  spec.version = "1.1.1"
+  spec.version = "1.1.2"
   spec.homepage = "https://github.com/ranguba/chupa-text-decomposer-pdf"
   spec.authors = ["Kouhei Sutou"]
   spec.email = ["kou@clear-code.com"]
