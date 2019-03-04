@@ -66,28 +66,10 @@ module ChupaText
       def create_document(data)
         _password = password(data)
         path = data.path
-        case path
-        when String
-          path = nil unless File.exist?(path)
-        when Pathname
-          if path.exist?
-            path = path.to_s
-          else
-            path = nil
-          end
-        end
-        if path.nil?
-          file = Tempfile.new(["chupa-text-decomposer-pdf", ".pdf"])
-          file.binmode
-          data.open do |input|
-            IO.copy_stream(input, file)
-          end
-          file.close
-          path = file.path
-        end
+        path = path.to_path if path.respond_to?(:to_path)
         begin
           wrap_stderr do
-            Poppler::Document.new(file: path, password: _password)
+            Poppler::Document.new(path: path, password: _password)
           end
         rescue Poppler::Error::Encrypted
           raise ChupaText::EncryptedError.new(data)
