@@ -94,12 +94,19 @@ module ChupaText
 
       def wrap_stderr
         stderr = $stderr.dup
-        input, output = IO.pipe
-        _ = input # TODO: Report output
-        $stderr.reopen(output)
-        yield
-      ensure
-        $stderr.reopen(stderr)
+        stderr_log = Tempfile.new(["chupa-text-decomposer-pdf-stderr", ".log"])
+        begin
+          $stderr.reopen(stderr_log)
+          yield
+        ensure
+          $stderr.reopen(stderr)
+          if stderr_log.size > 0
+            warn do
+              stderr_log.rewind
+              "#{log_tag} Messages from Poppler:\n#{stderr_log.read}"
+            end
+          end
+        end
       end
 
       def add_attribute(text_data, document,

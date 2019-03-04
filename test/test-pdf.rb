@@ -228,6 +228,10 @@ class TestPDF < Test::Unit::TestCase
         end
         assert_equal([
                        [
+                         :warn,
+                         "[decomposer][pdf] Messages from Poppler:"
+                       ],
+                       [
                          :error,
                          "[decomposer][pdf] Failed to process PDF: " +
                          "Poppler::Error::Damaged: PDF document is damaged",
