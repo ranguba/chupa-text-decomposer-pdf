@@ -1,5 +1,11 @@
 # News
 
+## 1.1.1: 2019-03-04
+
+### Improvements
+
+  * Improved log handling from Poppler.
+
 ## 1.1.0: 2019-03-03
 
 ### Improvements
