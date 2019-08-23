@@ -25,9 +25,11 @@ Now, you can extract text and meta-data from PDF:
 % chupa-text document.pdf
 ```
 
-## Author
+## Authors
 
   * Kouhei Sutou `<kou@clear-code.com>`
+
+  * Shimadzu Corporation
 
 ## License
 
