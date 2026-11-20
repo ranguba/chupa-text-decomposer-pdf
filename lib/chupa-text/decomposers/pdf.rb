@@ -41,7 +41,7 @@ module ChupaText
         document = create_document(data)
         return if document.nil?
 
-        text = ""
+        text = +""
         document.each do |page|
           page_text = page.get_text
           next if page_text.empty?
