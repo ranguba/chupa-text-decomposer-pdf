@@ -1,6 +1,6 @@
 # -*- ruby -*-
 #
-# Copyright (C) 2013-2019  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2013-2026  Sutou Kouhei <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,9 +22,9 @@ end
 
 Gem::Specification.new do |spec|
   spec.name = "chupa-text-decomposer-pdf"
-  spec.version = "1.1.2"
+  spec.version = "1.1.3"
   spec.homepage = "https://github.com/ranguba/chupa-text-decomposer-pdf"
-  spec.authors = ["Kouhei Sutou"]
+  spec.authors = ["Sutou Kouhei"]
   spec.email = ["kou@clear-code.com"]
   readme = File.read("README.md", :encoding => "UTF-8")
   entries = readme.split(/^\#\#\s(.*)$/)
