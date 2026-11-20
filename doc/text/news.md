@@ -1,5 +1,12 @@
 # News
 
+## 1.1.2: 2026-11-20
+
+### Improvements
+
+  * Suppressed a frozen string literal warning with Ruby 3.4 or
+    later.
+
 ## 1.1.1: 2019-03-04
 
 ### Improvements
