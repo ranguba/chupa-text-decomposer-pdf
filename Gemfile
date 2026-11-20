@@ -18,6 +18,8 @@
 
 source "https://rubygems.org/"
 
+plugin "rubygems-requirements-system"
+
 gemspec
 
 base_dir = File.dirname(__FILE__)
